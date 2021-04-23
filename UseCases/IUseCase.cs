@@ -1,7 +1,10 @@
-﻿namespace UseCases
+﻿using Entities;
+using System.Collections.Generic;
+
+namespace UseCases
 {
-    public interface IUseCase
+    public interface IBookUseCase
     {
-        object UseCaseMethod();
+        IEnumerable<Book> GetAll();
     }
 }
