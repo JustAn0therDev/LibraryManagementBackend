@@ -5,6 +5,7 @@ namespace Repositories
 {
     public interface IBookContext
     {
-        public DbSet<Book> Books { get; set; }
+        DbSet<Book> Books { get; set; }
+        void Commit();
     }
 }

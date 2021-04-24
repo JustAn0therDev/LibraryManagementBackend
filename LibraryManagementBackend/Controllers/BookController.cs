@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UseCases;
+using UseCases.Interfaces;
 
 namespace LibraryManagementBackend.Controllers
 {
@@ -20,6 +20,14 @@ namespace LibraryManagementBackend.Controllers
         public IEnumerable<Book> Get()
         {
             return _useCase.GetAll();
+        }
+
+        [HttpPost]
+        public Book Post([FromBody]Book bookParam)
+        {
+            var book = _useCase.MakeObject(bookParam.Name);
+
+            return _useCase.Save(book);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repositories;
 using UseCases;
+using UseCases.Interfaces;
 
 namespace LibraryManagementBackend
 {

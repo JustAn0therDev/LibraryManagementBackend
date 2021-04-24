@@ -8,5 +8,10 @@ namespace Repositories
         public LibraryContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Book> Books { get; set; }
+
+        void IBookContext.Commit()
+        {
+            SaveChanges();
+        }
     }
 }
