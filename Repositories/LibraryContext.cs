@@ -18,6 +18,7 @@ namespace Repositories
 
             return book;
         }
+        
         public IEnumerable<Book> GetAll()
         {
             return Books.Select(s => s);
