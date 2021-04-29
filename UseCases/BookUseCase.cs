@@ -2,20 +2,19 @@
 using Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UseCases.Interfaces;
 
 namespace UseCases
 {
     public class BookUseCase : IBookUseCase
     {
-        private readonly IBookContext _bookContext;
+        private readonly IBookRepository _bookRepository;
 
-        public BookUseCase(IBookContext bookContext) => _bookContext = bookContext;
+        public BookUseCase(IBookRepository bookContext) => _bookRepository = bookContext;
 
         public IEnumerable<Book> GetAll()
         {
-            return _bookContext.Books.Select(s => s);
+            return _bookRepository.GetAll();
         }
 
         public Book MakeObject(string name)
@@ -33,9 +32,7 @@ namespace UseCases
                 throw new ArgumentNullException("Entity not provided");
             }
 
-            _bookContext.Books.Add(entity);
-
-            _bookContext.Commit();
+            _bookRepository.Save(entity);
 
             return entity;
         }

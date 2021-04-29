@@ -1,4 +1,3 @@
-using Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +28,7 @@ namespace LibraryManagementBackend
 
             services.AddDbContext<LibraryContext>(options => options.UseSqlite(Configuration.GetConnectionString("sqlite")));
 
-            services.AddScoped<IBookContext, LibraryContext>();
+            services.AddScoped<IBookRepository, LibraryContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
