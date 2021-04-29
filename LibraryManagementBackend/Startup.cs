@@ -25,10 +25,16 @@ namespace LibraryManagementBackend
             services.AddControllers();
 
             services.AddTransient<IBookUseCase, BookUseCase>();
+            services.AddTransient<IAuthorUseCase, AuthorUseCase>();
+            services.AddTransient<IPublisherUseCase, PublisherUseCase>();
+            services.AddTransient<IGenreUseCase, GenreUseCase>();
 
             services.AddDbContext<LibraryContext>(options => options.UseSqlite(Configuration.GetConnectionString("sqlite")));
 
             services.AddScoped<IBookRepository, LibraryContext>();
+            services.AddScoped<IAuthorRepository, LibraryContext>();
+            services.AddScoped<IGenreRepository, LibraryContext>();
+            services.AddScoped<IPublisherRepository, LibraryContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
