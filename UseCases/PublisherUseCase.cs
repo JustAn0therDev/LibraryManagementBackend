@@ -3,6 +3,7 @@ using Repositories;
 using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;
+using Repositories.Interfaces;
 
 namespace UseCases
 {

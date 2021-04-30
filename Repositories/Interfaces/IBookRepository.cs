@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Entities;
 
-namespace Repositories
+namespace Repositories.Interfaces
 {
-    public interface IBookRepository
+    public interface IBookRepository : IRepository<Book>
     {
         IEnumerable<Book> GetAll();
-
         Book Save(Book book);
     }
 }

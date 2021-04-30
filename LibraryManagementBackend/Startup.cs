@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repositories;
+using Repositories.Interfaces;
 using UseCases;
 using UseCases.Interfaces;
 

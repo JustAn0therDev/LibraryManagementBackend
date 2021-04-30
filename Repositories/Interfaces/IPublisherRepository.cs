@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Entities;
 
-namespace Repositories
+namespace Repositories.Interfaces
 {
-    public interface IPublisherRepository
+    public interface IPublisherRepository : IRepository<Publisher>
     {
         IEnumerable<Publisher> GetAll();
 

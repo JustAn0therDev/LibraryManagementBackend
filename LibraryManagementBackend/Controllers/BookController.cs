@@ -25,9 +25,7 @@ namespace LibraryManagementBackend.Controllers
         [HttpPost]
         public Book Post([FromBody]Book bookParam)
         {
-            var book = _useCase.MakeObject(bookParam.Name);
-
-            return _useCase.Save(book);
+            return _useCase.Save(bookParam);
         }
     }
 }

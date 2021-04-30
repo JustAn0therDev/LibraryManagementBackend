@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Entities;
 
-namespace Repositories
+namespace Repositories.Interfaces
 {
-    public interface IGenreRepository
+    public interface IGenreRepository : IRepository<Genre>
     {
         IEnumerable<Genre> GetAll();
 

@@ -1,5 +1,5 @@
 using Entities;
-using Repositories;
+using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;

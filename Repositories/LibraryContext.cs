@@ -2,6 +2,7 @@
 using System.Linq;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Interfaces;
 
 namespace Repositories
 {
@@ -64,6 +65,26 @@ namespace Repositories
             SaveChanges();
 
             return author;
+        }
+
+        public Book GetById(int id)
+        {
+            return Books.FirstOrDefault(f => f.ID == id);
+        }
+
+        Publisher IRepository<Publisher>.GetById(int id)
+        {
+            return Publishers.FirstOrDefault(f => f.ID == id);
+        }
+
+        Author IRepository<Author>.GetById(int id)
+        {
+            return Authors.FirstOrDefault(f => f.ID == id);
+        }
+
+        Genre IRepository<Genre>.GetById(int id)
+        {
+            return Genres.FirstOrDefault(f => f.ID == id);
         }
     }
 }
