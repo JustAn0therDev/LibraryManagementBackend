@@ -1,12 +1,9 @@
 ﻿using Entities;
-using LibraryManagementBackend.Requests;
-using LibraryManagementBackend.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;
-
 
 namespace LibraryManagementBackend.Controllers
 {
@@ -30,32 +27,20 @@ namespace LibraryManagementBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]CreateBook createBook)
+        public IActionResult Post([FromBody]Book createBook)
         {
             try 
             {
                 var bookName = createBook.Name;
-                var authorId = createBook.AuthorID;
-                var publisherId = createBook.PublisherID;
-                var genreId = createBook.GenreID;
+                var authorId = createBook.AuthorID ?? 0;
+                var publisherId = createBook.PublisherID ?? 0;
+                var genreId = createBook.GenreID ?? 0;
 
                 var book = _useCase.MakeObject(bookName, authorId, publisherId, genreId);
 
                 book = _useCase.Save(book);
 
-                var author = book.Author;
-                var publisher = book.Publisher;
-                var genre = book.Genre;
-
-                var createBookResponse = new CreateBookResponse 
-                {
-                    BookName = book.Name,
-                    AuthorName = book.Author?.Name,
-                    PublisherName = book.Publisher?.Name,
-                    GenreName = book.Genre?.Name,
-                };
-
-                return Ok(createBookResponse);
+                return Ok(book);
             }
             catch (ArgumentException aex) 
             {

@@ -28,14 +28,13 @@ namespace LibraryManagementBackend
         {
             services.AddControllers();
 
-            var connectionString = GetConnectionStringForCurrentOperatingSystem();
-
             services.AddTransient<IBookUseCase, BookUseCase>();
             services.AddTransient<IAuthorUseCase, AuthorUseCase>();
             services.AddTransient<IPublisherUseCase, PublisherUseCase>();
             services.AddTransient<IGenreUseCase, GenreUseCase>();
             services.AddSingleton<ILogger, Logger<BookController>>();
 
+            string connectionString = GetConnectionStringForCurrentOperatingSystem();
             services.AddDbContext<LibraryContext>(options => options.UseSqlite(connectionString));
 
             services.AddScoped<IBookRepository, LibraryContext>();

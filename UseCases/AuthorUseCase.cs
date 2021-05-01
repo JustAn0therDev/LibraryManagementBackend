@@ -34,7 +34,7 @@ namespace UseCases
         {
             if (author == null) 
             {
-                throw new ArgumentNullException("Entity not provided");
+                UseCaseUtils.ThrowArgumentNullException(nameof(author));
             }
 
             _authorRepository.Save(author);

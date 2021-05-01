@@ -1,6 +1,7 @@
 ﻿using Entities;
 using System;
 using System.Collections.Generic;
+using UseCases;
 using UseCases.Interfaces;
 using Repositories.Interfaces;
 
@@ -8,10 +9,16 @@ namespace UseCases
 {
     public class BookUseCase : IBookUseCase
     {
+        #region Private Properties
+
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IPublisherRepository _publisherRepository;
         private readonly IGenreRepository _genreRepository;
+
+        #endregion
+
+        #region Private Methods
 
         private void PopulateBookObjectByReference(Book book)
         {
@@ -31,6 +38,8 @@ namespace UseCases
             }
         }
 
+        #endregion
+
         public BookUseCase(IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, IGenreRepository genreRepository) 
         {
             _bookRepository = bookRepository;
@@ -38,6 +47,8 @@ namespace UseCases
             _publisherRepository = publisherRepository;
             _genreRepository = genreRepository;
         }
+
+        #region Public Methods
 
         public IEnumerable<Book> GetAll()
         {
@@ -60,8 +71,28 @@ namespace UseCases
             return book;
         }
 
-        public Book MakeObject(string name, int authorId, int publisherId, int genreId)
+        public Book MakeObject(string name, int? authorId, int? publisherId, int? genreId)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+            }
+
+            if (authorId == null || authorId == 0)
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(authorId));
+            }
+
+            if (publisherId == null || publisherId == 0)
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(publisherId));
+            }
+
+            if (genreId == null || genreId == 0)
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(genreId));
+            }
+
             return new Book
             {
                 Name = name,
@@ -84,5 +115,7 @@ namespace UseCases
 
             return book;
         }
+
+        #endregion
     }
 }

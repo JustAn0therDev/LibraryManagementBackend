@@ -1,5 +1,4 @@
 using Entities;
-using Repositories;
 using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;
@@ -25,6 +24,11 @@ namespace UseCases
 
         public Genre MakeObject(string name)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+            }
+
             return new Genre
             {
                 Name = name

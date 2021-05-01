@@ -1,6 +1,4 @@
 using Entities;
-using Repositories;
-using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;
 using Repositories.Interfaces;
@@ -25,6 +23,11 @@ namespace UseCases
 
         public Publisher MakeObject(string name)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            {
+                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+            }
+
             return new Publisher
             {
                 Name = name
@@ -35,7 +38,7 @@ namespace UseCases
         {
             if (publisher == null) 
             {
-                throw new ArgumentNullException("Entity not provided");
+                UseCaseUtils.ThrowArgumentNullException(nameof(publisher));
             }
 
             _publisherRepository.Save(publisher);
