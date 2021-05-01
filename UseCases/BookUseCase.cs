@@ -1,8 +1,6 @@
 ﻿using Entities;
-using Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UseCases.Interfaces;
 using Repositories.Interfaces;
 
@@ -14,6 +12,24 @@ namespace UseCases
         private readonly IAuthorRepository _authorRepository;
         private readonly IPublisherRepository _publisherRepository;
         private readonly IGenreRepository _genreRepository;
+
+        private void PopulateBookObjectByReference(Book book)
+        {
+            if (book.AuthorID.HasValue) 
+            {
+                book.Author = _authorRepository.GetById(book.AuthorID.Value);
+            }
+
+            if (book.PublisherID.HasValue)
+            {
+                book.Publisher = _publisherRepository.GetById(book.PublisherID.Value);
+            }
+
+            if (book.GenreID.HasValue) 
+            {
+                book.Genre = _genreRepository.GetById(book.GenreID.Value);
+            }
+        }
 
         public BookUseCase(IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, IGenreRepository genreRepository) 
         {
@@ -27,45 +43,46 @@ namespace UseCases
         {
             var allBooks = _bookRepository.GetAll();
 
-            foreach (var book in allBooks) 
+            foreach (var book in allBooks)
             {
-                if (book.AuthorID.HasValue) 
-                {
-                    book.Author = _authorRepository.GetById(book.AuthorID.Value);
-                }
-
-                if (book.PublisherID.HasValue) 
-                {
-                    book.Publisher = _publisherRepository.GetById(book.PublisherID.Value);
-                }
-
-                if (book.GenreID.HasValue) 
-                {
-                    book.Genre = _genreRepository.GetById(book.GenreID.Value);
-                }
+                PopulateBookObjectByReference(book);
             }
 
             return allBooks;
         }
 
-        public Book MakeObject(string name)
+        public Book GetById(int id)
+        {
+            var book = _bookRepository.GetById(id);
+
+            PopulateBookObjectByReference(book);
+
+            return book;
+        }
+
+        public Book MakeObject(string name, int authorId, int publisherId, int genreId)
         {
             return new Book
             {
-                Name = name
+                Name = name,
+                AuthorID = authorId,
+                PublisherID = publisherId,
+                GenreID = genreId
             };
         }
 
-        public Book Save(Book entity)
+        public Book Save(Book book)
         {
-            if (entity == null) 
+            if (book == null) 
             {
-                throw new ArgumentNullException("Entity not provided");
+                throw new ArgumentNullException(nameof(book), "Entity not provided");
             }
 
-            _bookRepository.Save(entity);
+            _bookRepository.Save(book);
 
-            return entity;
+            PopulateBookObjectByReference(book);
+
+            return book;
         }
     }
 }

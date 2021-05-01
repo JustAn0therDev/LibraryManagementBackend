@@ -17,6 +17,11 @@ namespace UseCases
             return _authorRepository.GetAll();
         }
 
+        public Author GetById(int id)
+        {
+            return _authorRepository.GetById(id);
+        }
+
         public Author MakeObject(string name)
         {
             return new Author

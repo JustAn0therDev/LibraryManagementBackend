@@ -18,6 +18,11 @@ namespace UseCases
             return _genreRepository.GetAll();
         }
 
+        public Genre GetById(int id)
+        {
+            return _genreRepository.GetById(id);
+        }
+
         public Genre MakeObject(string name)
         {
             return new Genre

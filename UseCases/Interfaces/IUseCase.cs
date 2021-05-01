@@ -7,5 +7,7 @@ namespace UseCases.Interfaces
         IEnumerable<T> GetAll();
 
         T Save(T entity);
+
+        T GetById(int id);
     }
 }

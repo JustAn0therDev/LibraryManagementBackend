@@ -18,6 +18,11 @@ namespace UseCases
             return _publisherRepository.GetAll();
         }
 
+        public Publisher GetById(int id)
+        {
+            return _publisherRepository.GetById(id);
+        }
+
         public Publisher MakeObject(string name)
         {
             return new Publisher

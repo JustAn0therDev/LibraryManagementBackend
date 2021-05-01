@@ -8,6 +8,9 @@ using Repositories;
 using Repositories.Interfaces;
 using UseCases;
 using UseCases.Interfaces;
+using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
+using LibraryManagementBackend.Controllers;
 
 namespace LibraryManagementBackend
 {
@@ -25,12 +28,15 @@ namespace LibraryManagementBackend
         {
             services.AddControllers();
 
+            var connectionString = GetConnectionStringForCurrentOperatingSystem();
+
             services.AddTransient<IBookUseCase, BookUseCase>();
             services.AddTransient<IAuthorUseCase, AuthorUseCase>();
             services.AddTransient<IPublisherUseCase, PublisherUseCase>();
             services.AddTransient<IGenreUseCase, GenreUseCase>();
+            services.AddSingleton<ILogger, Logger<BookController>>();
 
-            services.AddDbContext<LibraryContext>(options => options.UseSqlite(Configuration.GetConnectionString("sqlite")));
+            services.AddDbContext<LibraryContext>(options => options.UseSqlite(connectionString));
 
             services.AddScoped<IBookRepository, LibraryContext>();
             services.AddScoped<IAuthorRepository, LibraryContext>();
@@ -56,6 +62,18 @@ namespace LibraryManagementBackend
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public string GetConnectionStringForCurrentOperatingSystem() 
+        {
+            bool isRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            if (isRunningOnWindows) 
+            {
+                return Configuration.GetConnectionString("sqlite");
+            }
+
+            return Configuration.GetConnectionString("sqliteUnix");
         }
     }
 }
