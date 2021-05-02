@@ -11,6 +11,7 @@ using UseCases.Interfaces;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using LibraryManagementBackend.Controllers;
+using System;
 
 namespace LibraryManagementBackend
 {
@@ -26,6 +27,7 @@ namespace LibraryManagementBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString;
             services.AddControllers();
 
             services.AddTransient<IBookUseCase, BookUseCase>();
@@ -34,7 +36,13 @@ namespace LibraryManagementBackend
             services.AddTransient<IGenreUseCase, GenreUseCase>();
             services.AddSingleton<ILogger, Logger<BookController>>();
 
-            string connectionString = GetConnectionStringForCurrentOperatingSystem();
+            connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+            if (string.IsNullOrEmpty(connectionString) || string.IsNullOrWhiteSpace(connectionString))
+            {
+                connectionString = GetConnectionStringForCurrentOperatingSystem();
+            }
+
             services.AddDbContext<LibraryContext>(options => options.UseSqlite(connectionString));
 
             services.AddScoped<IBookRepository, LibraryContext>();

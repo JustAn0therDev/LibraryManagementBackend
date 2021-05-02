@@ -20,10 +20,20 @@
     "LibraryManagementBackend": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "book",
+      "applicationUrl": "http://localhost:10000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "book",
+      "applicationUrl": "http://localhost:10000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "CONNECTION_STRING": "Data Source=/app/database.db"
       }
     }
   }
