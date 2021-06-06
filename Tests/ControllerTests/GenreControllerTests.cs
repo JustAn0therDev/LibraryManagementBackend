@@ -18,7 +18,7 @@ namespace Tests.ControllerTests
         {
             _mock.Setup(s => s.GetAll()).Returns(new List<Genre>
             {
-                new Genre 
+                new Genre
                 {
                     ID = 1,
                     Name = _genreName

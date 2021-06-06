@@ -18,7 +18,7 @@ namespace Tests.ControllerTests
         {
             _mock.Setup(s => s.GetAll()).Returns(new List<Publisher>
             {
-                new Publisher 
+                new Publisher
                 {
                     ID = 1,
                     Name = _publisherName

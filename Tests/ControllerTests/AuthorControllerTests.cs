@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Tests.ControllerTests
 {
-	public class AuthorControllerTests
+    public class AuthorControllerTests
     {
         [Fact]
         public void GetShouldReturnListOfAuthors()

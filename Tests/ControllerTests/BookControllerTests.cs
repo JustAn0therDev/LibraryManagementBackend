@@ -22,7 +22,7 @@ namespace Tests.ControllerTests
 
             mock.Setup(s => s.GetAll()).Returns(new List<Book>
             {
-                new Book 
+                new Book
                 {
                     ID = 1,
                     Name = bookName,

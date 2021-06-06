@@ -9,99 +9,99 @@ using System.Linq;
 
 namespace Tests.UseCaseTests
 {
-	public class PublisherUseCaseTests
+    public class PublisherUseCaseTests
     {
-      private readonly string _publisherName = "Science";
-      private readonly Mock<IPublisherRepository> _mock = new Mock<IPublisherRepository>();
+        private readonly string _publisherName = "Science";
+        private readonly Mock<IPublisherRepository> _mock = new Mock<IPublisherRepository>();
 
-      [Fact]
-      public void MakeObjectShouldReturnPublisher()
-      {
-        var useCase = new PublisherUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldReturnPublisher()
+        {
+            var useCase = new PublisherUseCase(_mock.Object);
 
-        Assert.True(useCase.MakeObject(_publisherName) != null);
-      }
+            Assert.True(useCase.MakeObject(_publisherName) != null);
+        }
 
-			[Fact]
-			public void MakeObjectShouldThrowExceptionWhenStringEmpty()
-			{
-				var useCase = new PublisherUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldThrowExceptionWhenStringEmpty()
+        {
+            var useCase = new PublisherUseCase(_mock.Object);
 
-				Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
-			}
+            Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
+        }
 
-			[Fact]
-			public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
-			{
-				var useCase = new PublisherUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
+        {
+            var useCase = new PublisherUseCase(_mock.Object);
 
-				Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
-			}
+            Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
+        }
 
-			[Fact]
-			public void SaveShouldReturnTheSameObject()
-			{
-				var publisher = new Publisher { Name = _publisherName };
-				
-				_mock.Setup(s => s.Save(publisher)).Returns(publisher);
+        [Fact]
+        public void SaveShouldReturnTheSameObject()
+        {
+            var publisher = new Publisher { Name = _publisherName };
 
-				var useCase = new PublisherUseCase(_mock.Object);
+            _mock.Setup(s => s.Save(publisher)).Returns(publisher);
 
-				publisher = useCase.Save(publisher);
+            var useCase = new PublisherUseCase(_mock.Object);
 
-				Assert.True(publisher != null && publisher.Name == _publisherName);
-			}
+            publisher = useCase.Save(publisher);
 
-      [Fact]
-			public void GetAllShouldReturnListOfPublishers()
-			{
-				var collectionOfPublishers = new List<Publisher> { new Publisher { Name = _publisherName } };
+            Assert.True(publisher != null && publisher.Name == _publisherName);
+        }
 
-				_mock.Setup(s => s.GetAll()).Returns(collectionOfPublishers);
+        [Fact]
+        public void GetAllShouldReturnListOfPublishers()
+        {
+            var collectionOfPublishers = new List<Publisher> { new Publisher { Name = _publisherName } };
 
-				var useCase = new PublisherUseCase(_mock.Object);
+            _mock.Setup(s => s.GetAll()).Returns(collectionOfPublishers);
 
-				collectionOfPublishers = useCase.GetAll().ToList();
+            var useCase = new PublisherUseCase(_mock.Object);
 
-				Assert.True(collectionOfPublishers != null && collectionOfPublishers.Count == 1);
-			}
+            collectionOfPublishers = useCase.GetAll().ToList();
 
-			[Fact]
-			public void GetAllShouldReturnNull()
-			{
-				_mock.Setup(s => s.GetAll()).Returns<IEnumerable<Publisher>>(null);
+            Assert.True(collectionOfPublishers != null && collectionOfPublishers.Count == 1);
+        }
 
-				var useCase = new PublisherUseCase(_mock.Object);
+        [Fact]
+        public void GetAllShouldReturnNull()
+        {
+            _mock.Setup(s => s.GetAll()).Returns<IEnumerable<Publisher>>(null);
 
-				var collectionOfPublishers = useCase.GetAll();
+            var useCase = new PublisherUseCase(_mock.Object);
 
-				Assert.True(collectionOfPublishers == null);
-			}
+            var collectionOfPublishers = useCase.GetAll();
 
-			[Fact]
-			public void GetByIdShouldReturnOnePublisher()
-			{
-				var publisher = new Publisher { Name = _publisherName };
-				
-				_mock.Setup(s => s.GetById(1)).Returns(publisher);
+            Assert.True(collectionOfPublishers == null);
+        }
 
-				var useCase = new PublisherUseCase(_mock.Object);
+        [Fact]
+        public void GetByIdShouldReturnOnePublisher()
+        {
+            var publisher = new Publisher { Name = _publisherName };
 
-				publisher = useCase.GetById(1);
+            _mock.Setup(s => s.GetById(1)).Returns(publisher);
 
-				Assert.True(publisher != null);
-			}
+            var useCase = new PublisherUseCase(_mock.Object);
 
-			[Fact]
-			public void GetByIdShouldReturnNull()
-			{
-				_mock.Setup(s => s.GetById(2)).Returns<Publisher>(null);
+            publisher = useCase.GetById(1);
 
-				var useCase = new PublisherUseCase(_mock.Object);
+            Assert.True(publisher != null);
+        }
 
-				var publisher = useCase.GetById(1);
+        [Fact]
+        public void GetByIdShouldReturnNull()
+        {
+            _mock.Setup(s => s.GetById(2)).Returns<Publisher>(null);
 
-				Assert.True(publisher == null);
-			}
+            var useCase = new PublisherUseCase(_mock.Object);
+
+            var publisher = useCase.GetById(1);
+
+            Assert.True(publisher == null);
+        }
     }
 }

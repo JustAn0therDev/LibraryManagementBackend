@@ -9,99 +9,99 @@ using System.Linq;
 
 namespace Tests.UseCaseTests
 {
-	public class GenreUseCaseTests
+    public class GenreUseCaseTests
     {
-      private readonly string _genreName = "Science";
-      private readonly Mock<IGenreRepository> _mock = new Mock<IGenreRepository>();
+        private readonly string _genreName = "Science";
+        private readonly Mock<IGenreRepository> _mock = new Mock<IGenreRepository>();
 
-      [Fact]
-      public void MakeObjectShouldReturnGenre()
-      {
-        var useCase = new GenreUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldReturnGenre()
+        {
+            var useCase = new GenreUseCase(_mock.Object);
 
-        Assert.True(useCase.MakeObject(_genreName) != null);
-      }
+            Assert.True(useCase.MakeObject(_genreName) != null);
+        }
 
-			[Fact]
-			public void MakeObjectShouldThrowExceptionWhenStringEmpty()
-			{
-				var useCase = new GenreUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldThrowExceptionWhenStringEmpty()
+        {
+            var useCase = new GenreUseCase(_mock.Object);
 
-				Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
-			}
+            Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
+        }
 
-			[Fact]
-			public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
-			{
-				var useCase = new GenreUseCase(_mock.Object);
+        [Fact]
+        public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
+        {
+            var useCase = new GenreUseCase(_mock.Object);
 
-				Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
-			}
+            Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
+        }
 
-			[Fact]
-			public void SaveShouldReturnTheSameObject()
-			{
-				var genre = new Genre { Name = _genreName };
-				
-				_mock.Setup(s => s.Save(genre)).Returns(genre);
+        [Fact]
+        public void SaveShouldReturnTheSameObject()
+        {
+            var genre = new Genre { Name = _genreName };
 
-				var useCase = new GenreUseCase(_mock.Object);
+            _mock.Setup(s => s.Save(genre)).Returns(genre);
 
-				genre = useCase.Save(genre);
+            var useCase = new GenreUseCase(_mock.Object);
 
-				Assert.True(genre != null && genre.Name == _genreName);
-			}
+            genre = useCase.Save(genre);
 
-      [Fact]
-			public void GetAllShouldReturnListOfGenres()
-			{
-				var collectionOfGenres = new List<Genre> { new Genre { Name = _genreName } };
+            Assert.True(genre != null && genre.Name == _genreName);
+        }
 
-				_mock.Setup(s => s.GetAll()).Returns(collectionOfGenres);
+        [Fact]
+        public void GetAllShouldReturnListOfGenres()
+        {
+            var collectionOfGenres = new List<Genre> { new Genre { Name = _genreName } };
 
-				var useCase = new GenreUseCase(_mock.Object);
+            _mock.Setup(s => s.GetAll()).Returns(collectionOfGenres);
 
-				collectionOfGenres = useCase.GetAll().ToList();
+            var useCase = new GenreUseCase(_mock.Object);
 
-				Assert.True(collectionOfGenres != null && collectionOfGenres.Count == 1);
-			}
+            collectionOfGenres = useCase.GetAll().ToList();
 
-			[Fact]
-			public void GetAllShouldReturnNull()
-			{
-				_mock.Setup(s => s.GetAll()).Returns<IEnumerable<Genre>>(null);
+            Assert.True(collectionOfGenres != null && collectionOfGenres.Count == 1);
+        }
 
-				var useCase = new GenreUseCase(_mock.Object);
+        [Fact]
+        public void GetAllShouldReturnNull()
+        {
+            _mock.Setup(s => s.GetAll()).Returns<IEnumerable<Genre>>(null);
 
-				var collectionOfGenres = useCase.GetAll();
+            var useCase = new GenreUseCase(_mock.Object);
 
-				Assert.True(collectionOfGenres == null);
-			}
+            var collectionOfGenres = useCase.GetAll();
 
-			[Fact]
-			public void GetByIdShouldReturnOneGenre()
-			{
-				var genre = new Genre { Name = _genreName };
-				
-				_mock.Setup(s => s.GetById(1)).Returns(genre);
+            Assert.True(collectionOfGenres == null);
+        }
 
-				var useCase = new GenreUseCase(_mock.Object);
+        [Fact]
+        public void GetByIdShouldReturnOneGenre()
+        {
+            var genre = new Genre { Name = _genreName };
 
-				genre = useCase.GetById(1);
+            _mock.Setup(s => s.GetById(1)).Returns(genre);
 
-				Assert.True(genre != null);
-			}
+            var useCase = new GenreUseCase(_mock.Object);
 
-			[Fact]
-			public void GetByIdShouldReturnNull()
-			{
-				_mock.Setup(s => s.GetById(2)).Returns<Genre>(null);
+            genre = useCase.GetById(1);
 
-				var useCase = new GenreUseCase(_mock.Object);
+            Assert.True(genre != null);
+        }
 
-				var genre = useCase.GetById(1);
+        [Fact]
+        public void GetByIdShouldReturnNull()
+        {
+            _mock.Setup(s => s.GetById(2)).Returns<Genre>(null);
 
-				Assert.True(genre == null);
-			}
+            var useCase = new GenreUseCase(_mock.Object);
+
+            var genre = useCase.GetById(1);
+
+            Assert.True(genre == null);
+        }
     }
 }
