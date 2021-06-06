@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using UseCases.Interfaces;
 
@@ -17,17 +18,39 @@ namespace LibraryManagementBackend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Author> Get()
+        public ObjectResult Get()
         {
-            return _useCase.GetAll();
+            try 
+            {
+                return Ok(_useCase.GetAll());
+            }
+            catch (ArgumentException anex) 
+            {
+                return BadRequest(new { anex.Message });
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, new { ex.Message });
+            }
         }
 
         [HttpPost]
-        public Author Post([FromBody]Author authorParam)
+        public ObjectResult Post([FromBody] Author authorParam)
         {
-            var author = _useCase.MakeObject(authorParam.Name);
+            try 
+            {
+                var author = _useCase.MakeObject(authorParam.Name);
 
-            return _useCase.Save(author);
+                return Created("", _useCase.Save(author));
+            }
+            catch (ArgumentException anex)
+            {
+                return BadRequest(new { anex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ex.Message });
+            }
         }
     }
 }

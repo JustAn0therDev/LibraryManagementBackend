@@ -21,13 +21,24 @@ namespace LibraryManagementBackend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Book> Get()
+        public ObjectResult Get()
         {
-            return _useCase.GetAll();
+            try 
+            {
+                return Ok(_useCase.GetAll());
+            }
+            catch (ArgumentException anex)
+            {
+                return BadRequest(new { anex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ex.Message });
+            }
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Book createBook)
+        public ObjectResult Post([FromBody]Book createBook)
         {
             try 
             {
@@ -40,7 +51,7 @@ namespace LibraryManagementBackend.Controllers
 
                 book = _useCase.Save(book);
 
-                return Ok(book);
+                return Created("", book);
             }
             catch (ArgumentException aex) 
             {
@@ -50,7 +61,7 @@ namespace LibraryManagementBackend.Controllers
             catch (Exception ex) 
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(500, new { Message = "Oops! Something went wrong!" });
+                return StatusCode(500, new { ex.Message });
             }
         }
     }

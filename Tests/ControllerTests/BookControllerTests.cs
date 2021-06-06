@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using UseCases.Interfaces;
 using Xunit;
+using System.Collections.Generic;
+using System;
 
 namespace Tests.ControllerTests
 {
@@ -15,26 +17,80 @@ namespace Tests.ControllerTests
             var bookName = "The Pragmatic Programmer";
             var mock = new Mock<IBookUseCase>();
 
-            mock.Setup(s => s.MakeObject(bookName, null, null, null)).Returns(new Book
+            mock.Setup(s => s.GetAll()).Returns(new List<Book>
             {
-                ID = 1,
-                Name = bookName,
-                Genre = new Genre { Name = "Programming" },
-                Author = new Author { Name = "Forgot the guy's name" },
-                Publisher = new Publisher { Name = "Some publisher" }
+                new Book 
+                {
+                    ID = 1,
+                    Name = bookName,
+                    Genre = new Genre { Name = "Science" },
+                    Author = new Author { Name = "Andrew Hunt" },
+                    Publisher = new Publisher { Name = "Some publisher" }
+                }
             });
 
             var loggerMock = new Mock<ILogger>();
 
             var controller = new BookController(loggerMock.Object, mock.Object);
 
-            Assert.True(controller.Get() != null);
+            var response = controller.Get();
+
+            Assert.True(response.StatusCode == 200 && response.Value as List<Book> != null);
         }
 
         [Fact]
         public void PostShouldInsertBook()
         {
+            var book = new Book { Name = "The Pragmatic Programmer", AuthorID = 1, PublisherID = 32, GenreID = 23 };
 
+            var mock = new Mock<IBookUseCase>();
+
+            mock.Setup(s => s.MakeObject(book.Name, book.AuthorID, book.PublisherID, book.GenreID)).Returns(book);
+            mock.Setup(s => s.Save(book)).Returns(book);
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new BookController(loggerMock.Object, mock.Object);
+
+            var response = controller.Post(book);
+
+            Assert.True(response.StatusCode == 201 && response.Value as Book != null);
+        }
+
+        [Fact]
+        public void PostShouldReturnBadRequest()
+        {
+            var book = new Book { Name = "", AuthorID = 1, PublisherID = 32, GenreID = 23 };
+
+            var mock = new Mock<IBookUseCase>();
+
+            mock.Setup(s => s.MakeObject(book.Name, book.AuthorID, book.PublisherID, book.GenreID)).Throws<ArgumentNullException>();
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new BookController(loggerMock.Object, mock.Object);
+
+            var response = controller.Post(book);
+
+            Assert.True(response.StatusCode == 400 && response.Value as Book == null);
+        }
+
+        [Fact]
+        public void PostShouldReturnInternalServerError()
+        {
+            var book = new Book { Name = "", AuthorID = 1, PublisherID = 32, GenreID = 23 };
+
+            var mock = new Mock<IBookUseCase>();
+
+            mock.Setup(s => s.MakeObject(book.Name, book.AuthorID, book.PublisherID, book.GenreID)).Throws<Exception>();
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new BookController(loggerMock.Object, mock.Object);
+
+            var response = controller.Post(book);
+
+            Assert.True(response.StatusCode == 500 && response.Value as Book == null);
         }
     }
 }

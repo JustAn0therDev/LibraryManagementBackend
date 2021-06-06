@@ -22,8 +22,20 @@ namespace UseCases
             return _authorRepository.GetById(id);
         }
 
+        /// <summary>
+        /// Creates an object of the given use case type (e.g. AuthorUseCase.MakeObject method returns an Author object).
+        /// This method should validate any business rules regarding the desired object.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Author MakeObject(string name)
         {
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
+            {
+                throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided.");
+            }
+
             return new Author
             {
                 Name = name
@@ -32,7 +44,7 @@ namespace UseCases
 
         public Author Save(Author author)
         {
-            if (author == null) 
+            if (author == null)
             {
                 throw new ArgumentNullException(nameof(author), $"A value for {nameof(author)} must be provided");
             }
