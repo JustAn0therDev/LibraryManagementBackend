@@ -11,23 +11,22 @@ namespace Tests.UseCaseTests
 {
 	public class AuthorUseCaseTests
     {
+      private readonly string _authorName = "Robert C. Martin";
+      private readonly Mock<IAuthorRepository> _mock = new Mock<IAuthorRepository>();
+
       [Fact]
       public void MakeObjectShouldReturnAuthor()
       {
-          var authorName = "Robert C. Martin";
-          var mock = new Mock<IAuthorRepository>();
+          var _authorName = "Robert C. Martin";
+          var useCase = new AuthorUseCase(_mock.Object);
 
-          var useCase = new AuthorUseCase(mock.Object);
-
-          Assert.True(useCase.MakeObject(authorName) != null);
+          Assert.True(useCase.MakeObject(_authorName) != null);
         }
 
 				[Fact]
         public void MakeObjectShouldThrowExceptionWhenStringEmpty()
         {
-          var mock = new Mock<IAuthorRepository>();
-
-	        var useCase = new AuthorUseCase(mock.Object);
+	        var useCase = new AuthorUseCase(_mock.Object);
 
           Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
         }
@@ -35,9 +34,7 @@ namespace Tests.UseCaseTests
 				[Fact]
         public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
         {
-          var mock = new Mock<IAuthorRepository>();
-
-	        var useCase = new AuthorUseCase(mock.Object);
+	        var useCase = new AuthorUseCase(_mock.Object);
 
           Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
         }
@@ -45,30 +42,25 @@ namespace Tests.UseCaseTests
         [Fact]
         public void SaveShouldReturnTheSameObject()
         {
-          var authorName = "Robert C. Martin";
-
-          var author = new Author { Name = authorName };
+          var author = new Author { Name = _authorName };
           
-          var mock = new Mock<IAuthorRepository>();
+          _mock.Setup(s => s.Save(author)).Returns(author);
 
-          mock.Setup(s => s.Save(author)).Returns(author);
-
-	        var useCase = new AuthorUseCase(mock.Object);
+	        var useCase = new AuthorUseCase(_mock.Object);
 
           author = useCase.Save(author);
 
-          Assert.True(author != null && author.Name == authorName);
+          Assert.True(author != null && author.Name == _authorName);
         }
 
         [Fact]
         public void GetAllShouldReturnListOfAuthors()
         {
-          var collectionOfAuthors = new List<Author> { new Author { Name = "Robert C. Martin" } };
-          var mock = new Mock<IAuthorRepository>();
+          var collectionOfAuthors = new List<Author> { new Author { Name = _authorName } };
 
-          mock.Setup(s => s.GetAll()).Returns(collectionOfAuthors);
+          _mock.Setup(s => s.GetAll()).Returns(collectionOfAuthors);
 
-          var useCase = new AuthorUseCase(mock.Object);
+          var useCase = new AuthorUseCase(_mock.Object);
 
           collectionOfAuthors = useCase.GetAll().ToList();
 
@@ -78,11 +70,9 @@ namespace Tests.UseCaseTests
         [Fact]
         public void GetAllShouldReturnNull()
         {
-          var mock = new Mock<IAuthorRepository>();
+          _mock.Setup(s => s.GetAll()).Returns<IEnumerable<Author>>(null);
 
-          mock.Setup(s => s.GetAll()).Returns<IEnumerable<Author>>(null);
-
-          var useCase = new AuthorUseCase(mock.Object);
+          var useCase = new AuthorUseCase(_mock.Object);
 
           var collectionOfAuthors = useCase.GetAll();
 
@@ -92,12 +82,11 @@ namespace Tests.UseCaseTests
         [Fact]
         public void GetByIdShouldReturnOneAuthor()
         {
-          var author = new Author { Name = "Robert C. Martin" };
-          var mock = new Mock<IAuthorRepository>();
+          var author = new Author { Name = _authorName };
+          
+          _mock.Setup(s => s.GetById(1)).Returns(author);
 
-          mock.Setup(s => s.GetById(1)).Returns(author);
-
-          var useCase = new AuthorUseCase(mock.Object);
+          var useCase = new AuthorUseCase(_mock.Object);
 
           author = useCase.GetById(1);
 
@@ -107,11 +96,9 @@ namespace Tests.UseCaseTests
         [Fact]
         public void GetByIdShouldReturnNull()
         {
-          var mock = new Mock<IAuthorRepository>();
+          _mock.Setup(s => s.GetById(2)).Returns<Author>(null);
 
-          mock.Setup(s => s.GetById(2)).Returns<Author>(null);
-
-          var useCase = new AuthorUseCase(mock.Object);
+          var useCase = new AuthorUseCase(_mock.Object);
 
           var author = useCase.GetById(1);
 

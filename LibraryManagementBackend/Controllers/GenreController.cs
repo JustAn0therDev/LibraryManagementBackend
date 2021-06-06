@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using UseCases.Interfaces;
+using System;
 
 namespace LibraryManagementBackend.Controllers
 {
@@ -17,17 +17,39 @@ namespace LibraryManagementBackend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Genre> Get()
+        public ObjectResult Get()
         {
-            return _useCase.GetAll();
+            try
+            {
+                return Ok(_useCase.GetAll());
+            }
+            catch (ArgumentException anex)
+            {
+                return BadRequest(new { anex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ex.Message });
+            }
         }
 
         [HttpPost]
-        public Genre Post([FromBody]Genre genreParam)
+        public ObjectResult Post([FromBody]Genre genreParam)
         {
-            var genre = _useCase.MakeObject(genreParam.Name);
+            try
+            {
+                var genre = _useCase.MakeObject(genreParam.Name);
 
-            return _useCase.Save(genre);
+                return Created("", _useCase.Save(genre));
+            }
+            catch (ArgumentException anex)
+            {
+                return BadRequest(new { anex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ex.Message });
+            }
         }
     }
 }

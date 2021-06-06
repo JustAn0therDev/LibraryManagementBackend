@@ -11,6 +11,9 @@ namespace Tests.ControllerTests
 {
     public class BookControllerTests
     {
+        private readonly string _bookName = "The Pragmatic Programmer";
+        private readonly Mock<IBookUseCase> _mock = new Mock<IBookUseCase>();
+
         [Fact]
         public void GetShouldReturnListOfBooks()
         {
@@ -41,7 +44,7 @@ namespace Tests.ControllerTests
         [Fact]
         public void PostShouldInsertBook()
         {
-            var book = new Book { Name = "The Pragmatic Programmer", AuthorID = 1, PublisherID = 32, GenreID = 23 };
+            var book = new Book { Name = _bookName, AuthorID = 1, PublisherID = 32, GenreID = 23 };
 
             var mock = new Mock<IBookUseCase>();
 
