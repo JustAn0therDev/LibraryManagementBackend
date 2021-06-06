@@ -21,19 +21,24 @@ namespace UseCases
 
         private void PopulateBookObjectByReference(Book book)
         {
-            if (book.AuthorID.HasValue) 
+            if (book == null)
             {
-                book.Author = _authorRepository.GetById(book.AuthorID.Value);
+                return;
             }
 
-            if (book.PublisherID.HasValue)
+            if (book.AuthorID != 0) 
             {
-                book.Publisher = _publisherRepository.GetById(book.PublisherID.Value);
+                book.Author = _authorRepository.GetById(book.AuthorID);
             }
 
-            if (book.GenreID.HasValue) 
+            if (book.PublisherID != 0)
             {
-                book.Genre = _genreRepository.GetById(book.GenreID.Value);
+                book.Publisher = _publisherRepository.GetById(book.PublisherID);
+            }
+
+            if (book.GenreID != 0) 
+            {
+                book.Genre = _genreRepository.GetById(book.GenreID);
             }
         }
 
@@ -53,9 +58,12 @@ namespace UseCases
         {
             var allBooks = _bookRepository.GetAll();
 
-            foreach (var book in allBooks)
+            if (allBooks != null)
             {
-                PopulateBookObjectByReference(book);
+                foreach (var book in allBooks)
+                {
+                    PopulateBookObjectByReference(book);
+                }
             }
 
             return allBooks;
@@ -70,24 +78,24 @@ namespace UseCases
             return book;
         }
 
-        public Book MakeObject(string name, int? authorId, int? publisherId, int? genreId)
+        public Book MakeObject(string name, int authorId, int publisherId, int genreId)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
             {
                 throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided");
             }
 
-            if (authorId == null || authorId == 0)
+            if (authorId == 0)
             {
                 throw new ArgumentNullException(nameof(authorId), $"A value for {nameof(authorId)} must be provided");
             }
 
-            if (publisherId == null || publisherId == 0)
+            if (publisherId == 0)
             {
                 throw new ArgumentNullException(nameof(publisherId), $"A value for {nameof(publisherId)} must be provided");
             }
 
-            if (genreId == null || genreId == 0)
+            if (genreId == 0)
             {
                 throw new ArgumentNullException(nameof(genreId), $"A value for {nameof(genreId)} must be provided");
             }

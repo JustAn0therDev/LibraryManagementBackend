@@ -17,92 +17,91 @@ namespace Tests.UseCaseTests
       [Fact]
       public void MakeObjectShouldReturnAuthor()
       {
-          var _authorName = "Robert C. Martin";
-          var useCase = new AuthorUseCase(_mock.Object);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          Assert.True(useCase.MakeObject(_authorName) != null);
-        }
+        Assert.True(useCase.MakeObject(_authorName) != null);
+      }
 
-				[Fact]
-        public void MakeObjectShouldThrowExceptionWhenStringEmpty()
-        {
-	        var useCase = new AuthorUseCase(_mock.Object);
+      [Fact]
+      public void MakeObjectShouldThrowExceptionWhenStringEmpty()
+      {
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
-        }
+        Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject(string.Empty); });
+      }
 
-				[Fact]
-        public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
-        {
-	        var useCase = new AuthorUseCase(_mock.Object);
+      [Fact]
+      public void MakeObjectShouldThrowExceptionWhenStringIsWhiteSpace()
+      {
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
-        }
+        Assert.Throws<ArgumentNullException>(() => { useCase.MakeObject("     "); });
+      }
 
-        [Fact]
-        public void SaveShouldReturnTheSameObject()
-        {
-          var author = new Author { Name = _authorName };
-          
-          _mock.Setup(s => s.Save(author)).Returns(author);
+      [Fact]
+      public void SaveShouldReturnTheSameObject()
+      {
+        var author = new Author { Name = _authorName };
+        
+        _mock.Setup(s => s.Save(author)).Returns(author);
 
-	        var useCase = new AuthorUseCase(_mock.Object);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          author = useCase.Save(author);
+        author = useCase.Save(author);
 
-          Assert.True(author != null && author.Name == _authorName);
-        }
+        Assert.True(author != null && author.Name == _authorName);
+      }
 
-        [Fact]
-        public void GetAllShouldReturnListOfAuthors()
-        {
-          var collectionOfAuthors = new List<Author> { new Author { Name = _authorName } };
+      [Fact]
+      public void GetAllShouldReturnListOfAuthors()
+      {
+        var collectionOfAuthors = new List<Author> { new Author { Name = _authorName } };
 
-          _mock.Setup(s => s.GetAll()).Returns(collectionOfAuthors);
+        _mock.Setup(s => s.GetAll()).Returns(collectionOfAuthors);
 
-          var useCase = new AuthorUseCase(_mock.Object);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          collectionOfAuthors = useCase.GetAll().ToList();
+        collectionOfAuthors = useCase.GetAll().ToList();
 
-          Assert.True(collectionOfAuthors != null && collectionOfAuthors.Count == 1);
-        }
+        Assert.True(collectionOfAuthors != null && collectionOfAuthors.Count == 1);
+      }
 
-        [Fact]
-        public void GetAllShouldReturnNull()
-        {
-          _mock.Setup(s => s.GetAll()).Returns<IEnumerable<Author>>(null);
+      [Fact]
+      public void GetAllShouldReturnNull()
+      {
+        _mock.Setup(s => s.GetAll()).Returns<IEnumerable<Author>>(null);
 
-          var useCase = new AuthorUseCase(_mock.Object);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          var collectionOfAuthors = useCase.GetAll();
+        var collectionOfAuthors = useCase.GetAll();
 
-          Assert.True(collectionOfAuthors == null);
-        }
+        Assert.True(collectionOfAuthors == null);
+      }
 
-        [Fact]
-        public void GetByIdShouldReturnOneAuthor()
-        {
-          var author = new Author { Name = _authorName };
-          
-          _mock.Setup(s => s.GetById(1)).Returns(author);
+      [Fact]
+      public void GetByIdShouldReturnOneAuthor()
+      {
+        var author = new Author { Name = _authorName };
 
-          var useCase = new AuthorUseCase(_mock.Object);
+        _mock.Setup(s => s.GetById(1)).Returns(author);
 
-          author = useCase.GetById(1);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          Assert.True(author != null);
-        }
+        author = useCase.GetById(1);
 
-        [Fact]
-        public void GetByIdShouldReturnNull()
-        {
-          _mock.Setup(s => s.GetById(2)).Returns<Author>(null);
+        Assert.True(author != null);
+      }
 
-          var useCase = new AuthorUseCase(_mock.Object);
+      [Fact]
+      public void GetByIdShouldReturnNull()
+      {
+        _mock.Setup(s => s.GetById(2)).Returns<Author>(null);
 
-          var author = useCase.GetById(1);
+        var useCase = new AuthorUseCase(_mock.Object);
 
-          Assert.True(author == null);
-        }
+        var author = useCase.GetById(1);
+
+        Assert.True(author == null);
+      }
     }
 }

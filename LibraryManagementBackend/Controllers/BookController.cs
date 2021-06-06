@@ -43,9 +43,9 @@ namespace LibraryManagementBackend.Controllers
             try 
             {
                 var bookName = createBook.Name;
-                var authorId = createBook.AuthorID ?? 0;
-                var publisherId = createBook.PublisherID ?? 0;
-                var genreId = createBook.GenreID ?? 0;
+                var authorId = createBook.AuthorID;
+                var publisherId = createBook.PublisherID;
+                var genreId = createBook.GenreID;
 
                 var book = _useCase.MakeObject(bookName, authorId, publisherId, genreId);
 
