@@ -18,7 +18,11 @@ namespace UseCases
         #endregion
 
         #region Private Methods
-
+        
+        /// <summary>
+        /// Populates a book object (currently: Author, Genre and Publisher) by reference if the object is not null.
+        /// <param name="book">Book object to populate</param>
+        /// </summary>
         private void PopulateBookObjectByReference(Book book)
         {
             if (book == null)
@@ -54,6 +58,10 @@ namespace UseCases
 
         #region Public Methods
 
+        /// <summary>
+        /// Fetches all records of Book in the repository
+        /// </summary>
+        /// <returns>IEnumerable<Book> collection</returns>
         public IEnumerable<Book> GetAll()
         {
             var allBooks = _bookRepository.GetAll();
@@ -69,6 +77,11 @@ namespace UseCases
             return allBooks;
         }
 
+        /// <summary>
+        /// Fetches an object by its repository ID.
+        /// </summary>
+        /// <param name="id">Book repository ID</param>
+        /// <returns>Object of Book type</returns>
         public Book GetById(int id)
         {
             var book = _bookRepository.GetById(id);
@@ -78,6 +91,15 @@ namespace UseCases
             return book;
         }
 
+        /// <summary>
+        /// Creates an object of the given use case type (e.g. AuthorUseCase.MakeObject method returns an Author object).
+        /// This method should validate any business rules regarding the desired object.
+        /// </summary>
+        /// <param name="name">Book name</param>
+        /// <param name="authorId">Author identifier</param>
+        /// <param name="publisherId">Publisher identifier</param>
+        /// <param name="genreId">Genre identifier</param>
+        /// <returns>Object of Book type</returns>
         public Book MakeObject(string name, int authorId, int publisherId, int genreId)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
@@ -109,6 +131,11 @@ namespace UseCases
             };
         }
 
+        /// <summary>
+        /// Persists the desired data in the repository.
+        /// </summary>
+        /// <param name="book">Book object</param>
+        /// <returns>The same object. Might raise an exception if a problem occurs during saving.</returns>
         public Book Save(Book book)
         {
             if (book == null) 

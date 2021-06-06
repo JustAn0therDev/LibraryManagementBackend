@@ -12,11 +12,20 @@ namespace UseCases
 
         public AuthorUseCase(IAuthorRepository authorRepository) => _authorRepository = authorRepository;
 
+        /// <summary>
+        /// Fetches all records of Author in the repository
+        /// </summary>
+        /// <returns>IEnumerable<Author> collection</returns>
         public IEnumerable<Author> GetAll()
         {
             return _authorRepository.GetAll();
         }
 
+        /// <summary>
+        /// Fetches an object by its repository ID.
+        /// </summary>
+        /// <param name="id">Author repository ID</param>
+        /// <returns>Object of Author type</returns>
         public Author GetById(int id)
         {
             return _authorRepository.GetById(id);
@@ -26,8 +35,8 @@ namespace UseCases
         /// Creates an object of the given use case type (e.g. AuthorUseCase.MakeObject method returns an Author object).
         /// This method should validate any business rules regarding the desired object.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">Author name</param>
+        /// <returns>Object of Author type</returns>
         public Author MakeObject(string name)
         {
 
@@ -42,6 +51,11 @@ namespace UseCases
             };
         }
 
+        /// <summary>
+        /// Persists the desired data in the repository.
+        /// </summary>
+        /// <param name="author">Author object</param>
+        /// <returns>The same object. Might raise an exception if a problem occurs during saving.</returns>
         public Author Save(Author author)
         {
             if (author == null)
