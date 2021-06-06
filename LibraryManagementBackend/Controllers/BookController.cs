@@ -45,7 +45,7 @@ namespace LibraryManagementBackend.Controllers
             catch (ArgumentException aex) 
             {
                 _logger.LogInformation($"Exception Message: {aex.Message} | StackTrace: {aex.StackTrace}");
-                return StatusCode(400, new { Message = aex.Message });
+                return StatusCode(400, new { aex.Message });
             }
             catch (Exception ex) 
             {

@@ -26,7 +26,7 @@ namespace UseCases
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+                throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided.");
             }
 
             return new Genre

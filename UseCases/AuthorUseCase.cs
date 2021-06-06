@@ -34,7 +34,7 @@ namespace UseCases
         {
             if (author == null) 
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(author));
+                throw new ArgumentNullException(nameof(author), $"A value for {nameof(author)} must be provided");
             }
 
             _authorRepository.Save(author);

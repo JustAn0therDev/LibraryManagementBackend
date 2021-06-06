@@ -2,6 +2,7 @@ using Entities;
 using System.Collections.Generic;
 using UseCases.Interfaces;
 using Repositories.Interfaces;
+using System;
 
 namespace UseCases
 {
@@ -25,7 +26,7 @@ namespace UseCases
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+                throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided");
             }
 
             return new Publisher
@@ -38,7 +39,7 @@ namespace UseCases
         {
             if (publisher == null) 
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(publisher));
+                throw new ArgumentNullException(nameof(publisher), $"A value for {nameof(publisher)} must be provided");
             }
 
             _publisherRepository.Save(publisher);

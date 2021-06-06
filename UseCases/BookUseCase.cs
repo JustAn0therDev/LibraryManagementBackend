@@ -1,7 +1,6 @@
 ﻿using Entities;
 using System;
 using System.Collections.Generic;
-using UseCases;
 using UseCases.Interfaces;
 using Repositories.Interfaces;
 
@@ -75,22 +74,22 @@ namespace UseCases
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(name));
+                throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided");
             }
 
             if (authorId == null || authorId == 0)
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(authorId));
+                throw new ArgumentNullException(nameof(authorId), $"A value for {nameof(authorId)} must be provided");
             }
 
             if (publisherId == null || publisherId == 0)
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(publisherId));
+                throw new ArgumentNullException(nameof(publisherId), $"A value for {nameof(publisherId)} must be provided");
             }
 
             if (genreId == null || genreId == 0)
             {
-                UseCaseUtils.ThrowArgumentNullException(nameof(genreId));
+                throw new ArgumentNullException(nameof(genreId), $"A value for {nameof(genreId)} must be provided");
             }
 
             return new Book
