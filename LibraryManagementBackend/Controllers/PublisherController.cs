@@ -16,6 +16,15 @@ namespace LibraryManagementBackend.Controllers
             _useCase = useCase;
         }
 
+
+        /// <summary>
+        /// Fetches all records of Publisher in the repository
+        /// </summary>
+        /// <returns>
+        /// 200 if the list was successfully fetched, 
+        /// 400 if something bad happened because of client parameters or
+        /// header and 500 if an error happened in the server 
+        /// </returns>
         [HttpGet]
         public ObjectResult Get()
         {
@@ -33,12 +42,22 @@ namespace LibraryManagementBackend.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Saves a publisher record in the repository
+        /// </summary>
+        /// <param name="publisherParam">A publisher structure in JSON</param>
+        /// <returns>
+        /// 201 if the resource is successfully saved,
+        /// 400 if something bad happened because of client parameters or
+        /// header and 500 if an error happened in the server during saving 
+        /// </returns>
         [HttpPost]
-        public ObjectResult Post([FromBody]Publisher PublisherParam)
+        public ObjectResult Post([FromBody]Publisher publisherParam)
         {
             try 
             {
-                var publisher = _useCase.MakeObject(PublisherParam.Name);
+                var publisher = _useCase.MakeObject(publisherParam?.Name);
                 return Created("", _useCase.Save(publisher));
             }
             catch (ArgumentException anex)

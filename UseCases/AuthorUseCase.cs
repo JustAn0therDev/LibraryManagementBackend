@@ -39,7 +39,6 @@ namespace UseCases
         /// <returns>Object of Author type</returns>
         public Author MakeObject(string name)
         {
-
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) 
             {
                 throw new ArgumentNullException(nameof(name), $"A value for {nameof(name)} must be provided.");

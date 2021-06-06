@@ -75,7 +75,7 @@ namespace Tests.ControllerTests
 
             var response = controller.Post(book);
 
-            Assert.True(response.StatusCode == 400 && response.Value as Book == null);
+            Assert.True(response.StatusCode == 400 && response.Value as Book is null);
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace Tests.ControllerTests
 
             var response = controller.Post(book);
 
-            Assert.True(response.StatusCode == 500 && response.Value as Book == null);
+            Assert.True(response.StatusCode == 500 && response.Value as Book is null);
         }
     }
 }

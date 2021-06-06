@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using UseCases.Interfaces;
 
 namespace LibraryManagementBackend.Controllers
@@ -20,6 +19,14 @@ namespace LibraryManagementBackend.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Fetches all records of Book in the repository
+        /// </summary>
+        /// <returns>
+        /// 200 if the list was successfully fetched, 
+        /// 400 if something bad happened because of client parameters or
+        /// header and 500 if an error happened in the server 
+        /// </returns>
         [HttpGet]
         public ObjectResult Get()
         {
@@ -37,15 +44,25 @@ namespace LibraryManagementBackend.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Saves a book record in the repository
+        /// </summary>
+        /// <param name="bookParam">A book structure in JSON</param>
+        /// <returns>
+        /// 201 if the resource is successfully saved,
+        /// 400 if something bad happened because of client parameters or
+        /// header and 500 if an error happened in the server during saving 
+        /// </returns>
         [HttpPost]
-        public ObjectResult Post([FromBody]Book createBook)
+        public ObjectResult Post([FromBody]Book bookParam)
         {
             try 
             {
-                var bookName = createBook.Name;
-                var authorId = createBook.AuthorID;
-                var publisherId = createBook.PublisherID;
-                var genreId = createBook.GenreID;
+                var bookName = bookParam.Name;
+                var authorId = bookParam.AuthorID;
+                var publisherId = bookParam.PublisherID;
+                var genreId = bookParam.GenreID;
 
                 var book = _useCase.MakeObject(bookName, authorId, publisherId, genreId);
 

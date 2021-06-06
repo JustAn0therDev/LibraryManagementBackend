@@ -72,7 +72,7 @@ namespace Tests.ControllerTests
 
             var response = controller.Post(genre);
 
-            Assert.True(response.StatusCode == 400);
+            Assert.True(response.StatusCode == 400 && response.Value as Genre is null);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Tests.ControllerTests
 
             var response = controller.Post(genre);
 
-            Assert.True(response.StatusCode == 500);
+            Assert.True(response.StatusCode == 500 && response.Value as Genre is null);
         }
     }
 }
